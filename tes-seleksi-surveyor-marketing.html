@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tes Seleksi Calon Surveyor / Marketing</title>
+<style>
+  :root{
+    --ink: #10233d;
+    --ink-soft: #35506e;
+    --paper: #f6f4ee;
+    --card: #ffffff;
+    --line: #d8d2c2;
+    --brass: #a9782f;
+    --brass-deep: #7d5a20;
+    --good: #276b45;
+    --bad: #a13d2d;
+    --stamp: #8a1f1f;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--paper);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(16,35,61,0.05) 1px, transparent 0);
+    background-size: 22px 22px;
+    font-family: 'Georgia', 'Iowan Old Style', serif;
+    color: var(--ink);
+    min-height:100vh;
+  }
+  .display{font-family: 'Palatino Linotype', 'Book Antiqua', Georgia, serif;}
+  .mono{font-family: 'Courier New', monospace; letter-spacing:0.03em;}
+
+  .wrap{max-width:760px;margin:0 auto;padding:28px 18px 80px;}
+
+  /* Letterhead */
+  .letterhead{
+    border-bottom:3px double var(--ink);
+    padding-bottom:14px;
+    margin-bottom:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:12px;
+  }
+  .letterhead .org{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    color:var(--ink-soft);
+  }
+  .letterhead h1{
+    font-size:22px;
+    margin:4px 0 0;
+    font-weight:700;
+  }
+  .letterhead .ref{
+    font-size:11px;
+    color:var(--ink-soft);
+    text-align:right;
+    line-height:1.5;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    box-shadow: 0 1px 0 rgba(16,35,61,0.05);
+    padding:24px;
+    margin-bottom:18px;
+  }
+
+  .lede{font-size:15px; line-height:1.7; color:var(--ink-soft);}
+
+  label{display:block; font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); margin-bottom:6px;}
+  input[type=text], input[type=tel]{
+    width:100%;
+    font-family:inherit;
+    font-size:16px;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    background:#fffdf8;
+    color:var(--ink);
+    margin-bottom:18px;
+  }
+  input:focus, button:focus, .opt:focus-within{outline:2px solid var(--brass); outline-offset:2px;}
+
+  .btn{
+    font-family:'Georgia', serif;
+    font-size:15px;
+    letter-spacing:0.03em;
+    padding:13px 26px;
+    background:var(--ink);
+    color:#f6f4ee;
+    border:none;
+    cursor:pointer;
+    display:inline-block;
+  }
+  .btn:hover{background:var(--brass-deep);}
+  .btn.secondary{background:transparent; color:var(--ink); border:1px solid var(--ink);}
+  .btn.secondary:hover{background:var(--ink); color:#fff;}
+  .btn:disabled{opacity:0.4; cursor:not-allowed;}
+
+  .section-tag{
+    display:inline-block;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:var(--brass-deep);
+    border:1px solid var(--brass);
+    padding:3px 10px;
+    margin-bottom:10px;
+  }
+  .section-title{font-size:19px; margin:0 0 4px; font-weight:700;}
+  .section-desc{font-size:13px; color:var(--ink-soft); margin:0 0 16px;}
+
+  .progress-bar{
+    position:sticky; top:0; z-index:5;
+    background:var(--paper);
+    padding:10px 0 14px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:16px;
+  }
+  .progress-track{height:6px; background:#e4dfd0; width:100%;}
+  .progress-fill{height:6px; background:var(--brass); width:0%; transition:width .25s ease;}
+  .progress-label{font-size:11px; color:var(--ink-soft); margin-top:6px; letter-spacing:0.04em;}
+
+  .q{border-bottom:1px solid var(--line); padding:18px 0;}
+  .q:last-child{border-bottom:none;}
+  .q-num{font-size:11px; color:var(--brass-deep); letter-spacing:0.08em; margin-bottom:4px;}
+  .q-text{font-size:16px; line-height:1.55; margin:0 0 12px;}
+  .opts{display:flex; flex-direction:column; gap:8px;}
+  .opt{
+    display:flex; align-items:flex-start; gap:10px;
+    padding:9px 12px;
+    border:1px solid var(--line);
+    background:#fffdf8;
+    cursor:pointer;
+    font-size:15px;
+    line-height:1.4;
+  }
+  .opt:hover{border-color:var(--brass);}
+  .opt input{margin-top:3px;}
+  .opt.checked{border-color:var(--brass); background:#fbf3e4;}
+
+  .unanswered-flag{font-size:12px; color:var(--bad); margin-top:6px; display:none;}
+
+  .sticky-submit{
+    position:sticky; bottom:0;
+    background:var(--paper);
+    border-top:1px solid var(--line);
+    padding:14px 0;
+    margin-top:20px;
+    display:flex; justify-content:space-between; align-items:center; gap:12px;
+    flex-wrap:wrap;
+  }
+
+  .stamp{
+    display:inline-block;
+    border:3px solid var(--stamp);
+    color:var(--stamp);
+    font-family:'Courier New', monospace;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    font-weight:700;
+    padding:10px 18px;
+    transform:rotate(-4deg);
+    font-size:14px;
+    margin:18px 0;
+  }
+
+  .hidden{display:none !important;}
+
+  .footer-note{font-size:11px; color:var(--ink-soft); text-align:center; margin-top:30px; line-height:1.6;}
+
+  table.admin-table{width:100%; border-collapse:collapse; font-size:13px;}
+  table.admin-table th, table.admin-table td{border:1px solid var(--line); padding:8px; text-align:left; vertical-align:top;}
+  table.admin-table th{background:#eee8d8; text-transform:uppercase; font-size:11px; letter-spacing:0.05em;}
+
+  @media (max-width:600px){
+    .letterhead{flex-direction:column; align-items:flex-start;}
+    .letterhead .ref{text-align:left;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="letterhead">
+    <div>
+      <div class="org">Rekrutmen Internal &mdash; Bagian Personalia</div>
+      <h1 class="display">Tes Seleksi Calon Surveyor / Marketing</h1>
+    </div>
+    <div class="ref mono" id="refBlock">
+      No. Ref: —<br>Tanggal: —
+    </div>
+  </div>
+
+  <!-- SCREEN 1: INTRO -->
+  <div id="screen-intro">
+    <div class="card">
+      <p class="lede">
+        Tes ini terdiri dari <strong>50 soal pilihan ganda</strong>, mencakup pengetahuan umum,
+        logika/penalaran, dan pengetahuan dasar perbankan &amp; kredit. Tes ini digunakan sebagai
+        bahan pertimbangan seleksi untuk posisi <strong>Surveyor / Marketing</strong>.
+      </p>
+      <p class="lede">
+        Jawab setiap soal sesuai pemahaman Anda. Tidak ada nilai yang ditampilkan setelah tes
+        selesai &mdash; hasil akan direkap dan dievaluasi langsung oleh tim personalia.
+        Pastikan seluruh data diisi dengan benar sebelum memulai.
+      </p>
+    </div>
+
+    <div class="card">
+      <label for="inpName">Nama Lengkap</label>
+      <input type="text" id="inpName" placeholder="Sesuai KTP">
+      <label for="inpPhone">Nomor HP / WhatsApp</label>
+      <input type="tel" id="inpPhone" placeholder="08xxxxxxxxxx">
+      <label for="inpPosisi">Posisi yang Dilamar</label>
+      <input type="text" id="inpPosisi" value="Surveyor / Marketing" readonly style="background:#efeada; color:var(--ink-soft);">
+      <div id="introError" style="color:var(--bad); font-size:13px; margin-bottom:10px; display:none;">
+        Mohon lengkapi nama dan nomor HP terlebih dahulu.
+      </div>
+      <button class="btn" id="btnStart">Mulai Tes →</button>
+    </div>
+
+    <div class="footer-note">
+      Panitia rekrutmen &nbsp;·&nbsp;
+      <a href="#" id="linkAdmin" style="color:var(--ink-soft);">Panel Personalia (rekap hasil)</a>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: TEST -->
+  <div id="screen-test" class="hidden">
+    <div class="progress-bar">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label"><span id="progressLabel">0 / 50 soal terjawab</span></div>
+    </div>
+    <div id="questionContainer"></div>
+
+    <div class="sticky-submit">
+      <div id="submitWarning" style="font-size:13px; color:var(--bad); display:none;">
+        Masih ada soal yang belum dijawab. Silakan lengkapi seluruh soal sebelum mengumpulkan.
+      </div>
+      <button class="btn" id="btnSubmit">Kumpulkan Jawaban</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: DONE -->
+  <div id="screen-done" class="hidden">
+    <div class="card" style="text-align:center;">
+      <div class="stamp">Diterima Panitia</div>
+      <p class="lede" style="margin-top:0;">
+        Terima kasih, <strong id="doneName"></strong>. Jawaban Anda untuk tes seleksi posisi
+        <strong>Surveyor / Marketing</strong> telah kami terima dan tercatat pada
+        <span id="doneTime"></span>.
+      </p>
+      <p class="lede">
+        Hasil tes tidak ditampilkan di halaman ini. Tim personalia akan menghubungi Anda
+        melalui nomor yang telah didaftarkan apabila Anda lolos ke tahap berikutnya.
+      </p>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: ADMIN GATE -->
+  <div id="screen-admin-gate" class="hidden">
+    <div class="card">
+      <p class="lede" style="margin-top:0;">Halaman ini khusus untuk tim personalia. Masukkan kode akses untuk melihat rekap hasil seluruh peserta.</p>
+      <label for="inpAdminCode">Kode Akses</label>
+      <input type="text" id="inpAdminCode" placeholder="Kode akses">
+      <div id="adminError" style="color:var(--bad); font-size:13px; margin-bottom:10px; display:none;">Kode akses salah.</div>
+      <button class="btn" id="btnAdminEnter">Masuk</button>
+      <button class="btn secondary" id="btnAdminCancel" style="margin-left:8px;">Kembali</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: ADMIN RECAP -->
+  <div id="screen-admin" class="hidden">
+    <div class="card">
+      <div class="section-title display">Rekap Hasil Peserta</div>
+      <p class="section-desc">Skor dihitung otomatis dari kunci jawaban tersimpan di halaman ini. Gunakan sebagai bahan pertimbangan awal, bukan satu-satunya dasar keputusan.</p>
+      <div style="overflow-x:auto;">
+        <table class="admin-table" id="adminTable">
+          <thead>
+            <tr>
+              <th>Nama</th><th>No. HP</th><th>Waktu Submit</th>
+              <th>Umum</th><th>Logika</th><th>Perbankan</th><th>Total</th>
+            </tr>
+          </thead>
+          <tbody id="adminTableBody"></tbody>
+        </table>
+      </div>
+      <div style="margin-top:16px;">
+        <button class="btn secondary" id="btnAdminBack">← Kembali ke Halaman Depan</button>
+        <button class="btn" id="btnAdminExport" style="margin-left:8px;">Salin sebagai CSV</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+
+  // ---------- DATA: 50 QUESTIONS ----------
+  // category: 'umum' | 'logika' | 'bank'
+  // correct = index (0-based) into options
+  const QUESTIONS = [
+    // UMUM (15)
+    {cat:'umum', text:'Ibu kota Provinsi Kalimantan Barat adalah...', opts:['Pontianak','Singkawang','Sintang','Ketapang'], correct:0},
+    {cat:'umum', text:'1 kilogram sama dengan berapa gram?', opts:['10 gram','100 gram','1.000 gram','10.000 gram'], correct:2},
+    {cat:'umum', text:'Presiden pertama Republik Indonesia adalah...', opts:['Soeharto','Soekarno','B.J. Habibie','Megawati Soekarnoputri'], correct:1},
+    {cat:'umum', text:'Mata uang resmi negara Indonesia disebut...', opts:['Ringgit','Rupiah','Peso','Baht'], correct:1},
+    {cat:'umum', text:'Hari Kemerdekaan Indonesia diperingati setiap tanggal...', opts:['17 Agustus','20 Mei','28 Oktober','10 November'], correct:0},
+    {cat:'umum', text:'Berikut yang termasuk platform media sosial adalah...', opts:['Microsoft Excel','Instagram','Microsoft Word','Adobe Photoshop'], correct:1},
+    {cat:'umum', text:'Satuan yang umum digunakan untuk mengukur jarak tempuh kendaraan adalah...', opts:['Liter','Kilometer','Watt','Kilogram'], correct:1},
+    {cat:'umum', text:'Aplikasi yang paling umum digunakan untuk membuat laporan berbentuk tabel dan angka adalah...', opts:['Microsoft Word','Microsoft Excel','Adobe Photoshop','Power Point'], correct:1},
+    {cat:'umum', text:'Provinsi Kalimantan Barat berbatasan langsung dengan negara...', opts:['Filipina','Malaysia','Singapura','Brunei Darussalam'], correct:1},
+    {cat:'umum', text:'Alat yang umumnya digunakan surveyor lapangan untuk menentukan titik lokasi (GPS) biasanya terdapat pada...', opts:['Kalkulator','Smartphone','Mesin cuci','Televisi'], correct:1},
+    {cat:'umum', text:'Dalam dunia kerja, istilah "target" biasanya merujuk pada...', opts:['Jumlah gaji bulanan','Sasaran/goal yang harus dicapai','Nama jabatan seseorang','Jadwal libur karyawan'], correct:1},
+    {cat:'umum', text:'Berikut ini yang TIDAK seharusnya dilakukan seorang surveyor/marketing di lapangan adalah...', opts:['Bersikap sopan kepada calon nasabah','Memberikan laporan palsu kepada atasan','Menjaga penampilan saat bertugas','Datang tepat waktu sesuai jadwal'], correct:1},
+    {cat:'umum', text:'Jika calon nasabah bertempat tinggal cukup jauh dari kantor cabang, sikap yang paling tepat sebagai surveyor adalah...', opts:['Menolak melakukan survey','Tetap melakukan survey sesuai prosedur yang berlaku','Meminta nasabah datang sendiri ke kantor','Mengabaikan tugas tersebut'], correct:1},
+    {cat:'umum', text:'Komunikasi yang baik dengan calon nasabah saat survey sebaiknya bersifat...', opts:['Menekan dan terburu-buru','Sopan, jelas, dan informatif','Seadanya tanpa penjelasan','Menghindari pertanyaan nasabah'], correct:1},
+    {cat:'umum', text:'Salah satu tujuan utama seorang marketing di perusahaan pembiayaan/leasing adalah...', opts:['Mencari nasabah baru sesuai kriteria yang ditetapkan','Menolak semua calon nasabah','Menunda proses pengajuan kredit','Menghindari target perusahaan'], correct:0},
+
+    // LOGIKA (20)
+    {cat:'logika', text:'Lanjutkan deret berikut: 2, 4, 6, 8, ...', opts:['9','10','11','12'], correct:1},
+    {cat:'logika', text:'Lanjutkan deret berikut: 3, 6, 12, 24, ...', opts:['36','48','30','42'], correct:1},
+    {cat:'logika', text:'Jika semua kucing adalah hewan, dan Tom adalah kucing, maka...', opts:['Tom adalah hewan','Tom bukan hewan','Tom adalah anjing','Tidak dapat disimpulkan'], correct:0},
+    {cat:'logika', text:'Lanjutkan deret berikut: 1, 4, 9, 16, 25, ...', opts:['30','36','32','40'], correct:1},
+    {cat:'logika', text:'Guru berhubungan dengan Sekolah, maka Dokter berhubungan dengan...', opts:['Pasar','Rumah Sakit','Kantor','Pabrik'], correct:1},
+    {cat:'logika', text:'Jika hari ini Senin, maka 10 hari lagi jatuh pada hari...', opts:['Rabu','Kamis','Jumat','Sabtu'], correct:1},
+    {cat:'logika', text:'Sebuah mobil menempuh jarak 60 km dengan kecepatan rata-rata 30 km/jam. Waktu tempuhnya adalah...', opts:['1 jam','2 jam','3 jam','30 menit'], correct:1},
+    {cat:'logika', text:'Manakah kata berikut yang tidak sekelompok dengan yang lain?', opts:['Apel','Jeruk','Wortel','Mangga'], correct:2},
+    {cat:'logika', text:'Lanjutkan deret berikut: 5, 10, 20, 40, ...', opts:['60','70','80','90'], correct:2},
+    {cat:'logika', text:'Semua pegawai bank memakai seragam. Budi memakai seragam. Maka...', opts:['Budi pasti pegawai bank','Budi belum tentu pegawai bank','Budi bukan pegawai bank','Tidak ada hubungan sama sekali'], correct:1},
+    {cat:'logika', text:'Kunci berhubungan dengan Pintu, maka Password berhubungan dengan...', opts:['Rumah','Akun','Mobil','Kertas'], correct:1},
+    {cat:'logika', text:'Urutan manakah yang benar dari nilai terkecil ke terbesar?', opts:['0,5 &mdash; 1 &mdash; 2','2 &mdash; 1 &mdash; 0,5','1 &mdash; 2 &mdash; 0,5','2 &mdash; 0,5 &mdash; 1'], correct:0},
+    {cat:'logika', text:'Jika A lebih tinggi dari B, dan B lebih tinggi dari C, maka pernyataan yang benar adalah...', opts:['C paling tinggi','A paling tinggi','B paling rendah','Tidak bisa disimpulkan'], correct:1},
+    {cat:'logika', text:'Lanjutkan deret berikut: 7, 14, 21, 28, ...', opts:['30','32','35','36'], correct:2},
+    {cat:'logika', text:'Manakah dari bilangan berikut yang merupakan bilangan prima?', opts:['9','15','17','21'], correct:2},
+    {cat:'logika', text:'Hasil penjualan bulan ini Rp 10.000.000, sedangkan target Rp 8.000.000. Maka pencapaian bulan ini...', opts:['Di bawah target','Di atas target','Sama dengan target','Tidak dapat dihitung'], correct:1},
+    {cat:'logika', text:'Sebuah motor menempuh jarak 120 km dalam waktu 3 jam. Kecepatan rata-ratanya adalah...', opts:['30 km/jam','40 km/jam','50 km/jam','60 km/jam'], correct:1},
+    {cat:'logika', text:'Lengkapi pola hari berikut: Senin, Rabu, Jumat, ...', opts:['Sabtu','Minggu','Selasa','Kamis'], correct:1},
+    {cat:'logika', text:'Jika 3x = 15, maka nilai x adalah...', opts:['3','4','5','6'], correct:2},
+    {cat:'logika', text:'Semua sales diwajibkan mencapai target. Andi tidak mencapai target bulan ini. Maka kesimpulan yang paling tepat adalah...', opts:['Andi pasti bukan sales','Status Andi sebagai sales tidak dapat ditentukan dari pernyataan ini','Andi pasti sales namun kurang optimal','Target tersebut tidak berlaku untuk Andi'], correct:1},
+
+    // PERBANKAN & KREDIT DASAR (15)
+    {cat:'bank', text:'Lembaga yang mengawasi dan mengatur sektor jasa keuangan, termasuk perbankan dan pembiayaan, di Indonesia adalah...', opts:['Bank Indonesia (BI)','Otoritas Jasa Keuangan (OJK)','Lembaga Penjamin Simpanan (LPS)','Badan Pemeriksa Keuangan (BPK)'], correct:1},
+    {cat:'bank', text:'Uang muka yang dibayarkan calon nasabah di awal saat pengajuan kredit disebut...', opts:['Bunga','Down Payment (DP)','Denda','Provisi'], correct:1},
+    {cat:'bank', text:'Jangka waktu suatu pinjaman/kredit dikenal dengan istilah...', opts:['Plafon','Tenor','Agunan','Kolektibilitas'], correct:1},
+    {cat:'bank', text:'Jaminan yang diserahkan atau diikat oleh nasabah sebagai penjamin kredit disebut...', opts:['Tenor','Agunan/Jaminan','Provisi','Bunga'], correct:1},
+    {cat:'bank', text:'Nasabah yang menunggak pembayaran cicilan lebih dari 90 hari umumnya masuk kategori kolektibilitas...', opts:['Lancar','Dalam perhatian khusus','Macet','Diragukan'], correct:2},
+    {cat:'bank', text:'Total dana maksimal yang dapat dipinjamkan oleh bank/lembaga pembiayaan kepada seorang nasabah disebut...', opts:['Plafon','Tenor','Agunan','Provisi'], correct:0},
+    {cat:'bank', text:'Biaya yang dibebankan kepada nasabah sebagai kompensasi atas penggunaan dana pinjaman disebut...', opts:['Provisi','Bunga','Denda','Premi'], correct:1},
+    {cat:'bank', text:'Lembaga yang menjamin simpanan nasabah apabila bank mengalami likuidasi adalah...', opts:['OJK','Lembaga Penjamin Simpanan (LPS)','Bank Indonesia (BI)','Kementerian Keuangan'], correct:1},
+    {cat:'bank', text:'Proses penilaian kelayakan calon nasabah sebelum kredit disetujui disebut...', opts:['Survey/analisa kredit','Pencairan dana','Restrukturisasi','Write off'], correct:0},
+    {cat:'bank', text:'Jika nasabah kesulitan membayar dan pihak lembaga memberikan keringanan atau penjadwalan ulang pembayaran, hal ini disebut...', opts:['Restrukturisasi','Somasi','Sita jaminan','Provisi'], correct:0},
+    {cat:'bank', text:'Dokumen berikut ini yang umumnya diperiksa surveyor untuk menilai kelayakan calon nasabah, KECUALI...', opts:['KTP','Slip gaji/bukti penghasilan','Kartu Keluarga','Ijazah SMA'], correct:3},
+    {cat:'bank', text:'Istilah "wanprestasi" dalam dunia kredit berarti...', opts:['Nasabah membayar tepat waktu','Nasabah gagal memenuhi kewajiban sesuai perjanjian','Nasabah melunasi lebih awal dari jadwal','Nasabah mengajukan tambahan pinjaman'], correct:1},
+    {cat:'bank', text:'Prinsip 5C dalam analisa kredit meliputi Character, Capacity, Capital, Collateral, dan...', opts:['Cash','Condition','Credit','Cost'], correct:1},
+    {cat:'bank', text:'Bunga flat dalam kredit berarti...', opts:['Bunga dihitung dari sisa pokok pinjaman yang terus menurun','Bunga dihitung tetap dari pokok pinjaman awal setiap periode','Bunga berubah setiap bulan mengikuti suku bunga pasar','Tidak dikenakan bunga sama sekali'], correct:1},
+    {cat:'bank', text:'Nasabah yang menunggak namun masih dalam batas wajar (1&ndash;90 hari) umumnya berstatus kolektibilitas...', opts:['Lancar','Dalam perhatian khusus','Macet','Kredit bermasalah penuh'], correct:1},
+  ];
+
+  const CAT_LABEL = {umum:'Pengetahuan Umum', logika:'Logika & Penalaran', bank:'Perbankan & Kredit Dasar'};
+  const ADMIN_CODE = 'HR-MELAWI-2026'; // change this to whatever code your HR team wants to use
+
+  // ---------- STATE ----------
+  let answers = new Array(QUESTIONS.length).fill(null);
+  let candidate = {name:'', phone:''};
+
+  // ---------- REF / DATE ----------
+  function pad(n){return n.toString().padStart(2,'0');}
+  const now = new Date();
+  const refCode = 'TS-' + now.getFullYear() + pad(now.getMonth()+1) + pad(now.getDate()) + '-' + Math.floor(Math.random()*900+100);
+  document.getElementById('refBlock').innerHTML = 'No. Ref: ' + refCode + '<br>Tanggal: ' + now.toLocaleDateString('id-ID', {day:'2-digit', month:'long', year:'numeric'});
+
+  // ---------- RENDER QUESTIONS ----------
+  const container = document.getElementById('questionContainer');
+  let lastCat = null;
+  QUESTIONS.forEach((q, idx) => {
+    if(q.cat !== lastCat){
+      lastCat = q.cat;
+      const secDiv = document.createElement('div');
+      secDiv.className = 'card';
+      secDiv.style.marginTop = idx===0 ? '0' : '18px';
+      secDiv.innerHTML = '<span class="section-tag">' + CAT_LABEL[q.cat] + '</span>';
+      container.appendChild(secDiv);
+      secDiv.dataset.sectionHolder = 'true';
+      var currentSectionCard = document.createElement('div');
+      currentSectionCard.className = 'card';
+      currentSectionCard.style.marginTop = '-18px';
+      container.appendChild(currentSectionCard);
+      window.__currentSectionCard = currentSectionCard;
+    }
+    const qDiv = document.createElement('div');
+    qDiv.className = 'q';
+    qDiv.innerHTML = '<div class="q-num">Soal ' + (idx+1) + ' dari ' + QUESTIONS.length + '</div>' +
+      '<p class="q-text">' + q.text + '</p>' +
+      '<div class="opts">' + q.opts.map((o,oi) => (
+        '<label class="opt" data-qidx="'+idx+'" data-oidx="'+oi+'">' +
+          '<input type="radio" name="q'+idx+'" value="'+oi+'"> <span>' + String.fromCharCode(65+oi) + '. ' + o + '</span>' +
+        '</label>'
+      )).join('') + '</div>' +
+      '<div class="unanswered-flag" id="flag'+idx+'">Belum dijawab</div>';
+    window.__currentSectionCard.appendChild(qDiv);
+  });
+
+  container.addEventListener('change', function(e){
+    if(e.target && e.target.type === 'radio'){
+      const name = e.target.name;
+      const qidx = parseInt(name.replace('q',''), 10);
+      const oidx = parseInt(e.target.value, 10);
+      answers[qidx] = oidx;
+      document.querySelectorAll('label.opt[data-qidx="'+qidx+'"]').forEach(l => l.classList.remove('checked'));
+      document.querySelector('label.opt[data-qidx="'+qidx+'"][data-oidx="'+oidx+'"]').classList.add('checked');
+      document.getElementById('flag'+qidx).style.display = 'none';
+      updateProgress();
+    }
+  });
+
+  function updateProgress(){
+    const answered = answers.filter(a => a !== null).length;
+    document.getElementById('progressLabel').textContent = answered + ' / ' + QUESTIONS.length + ' soal terjawab';
+    document.getElementById('progressFill').style.width = Math.round(answered / QUESTIONS.length * 100) + '%';
+  }
+
+  // ---------- SCREEN NAV ----------
+  function show(id){
+    ['screen-intro','screen-test','screen-done','screen-admin-gate','screen-admin'].forEach(s => {
+      document.getElementById(s).classList.toggle('hidden', s !== id);
+    });
+    window.scrollTo(0,0);
+  }
+
+  document.getElementById('btnStart').addEventListener('click', function(){
+    const name = document.getElementById('inpName').value.trim();
+    const phone = document.getElementById('inpPhone').value.trim();
+    if(!name || !phone){
+      document.getElementById('introError').style.display = 'block';
+      return;
+    }
+    candidate = {name, phone};
+    document.getElementById('introError').style.display = 'none';
+    show('screen-test');
+    updateProgress();
+  });
+
+  document.getElementById('btnSubmit').addEventListener('click', async function(){
+    const unanswered = [];
+    answers.forEach((a, i) => { if(a === null) unanswered.push(i); });
+    if(unanswered.length > 0){
+      document.getElementById('submitWarning').style.display = 'block';
+      unanswered.forEach(i => { const f = document.getElementById('flag'+i); if(f) f.style.display = 'block'; });
+      const firstQ = document.querySelector('label.opt[data-qidx="'+unanswered[0]+'"]');
+      if(firstQ) firstQ.scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+
+    // compute per-category scores (for HR eyes only, never shown to candidate)
+    const scoreByCat = {umum:0, logika:0, bank:0};
+    const totalByCat = {umum:0, logika:0, bank:0};
+    QUESTIONS.forEach((q, i) => {
+      totalByCat[q.cat]++;
+      if(answers[i] === q.correct) scoreByCat[q.cat]++;
+    });
+
+    const submission = {
+      name: candidate.name,
+      phone: candidate.phone,
+      ref: refCode,
+      submittedAt: new Date().toISOString(),
+      answers: answers,
+      scoreByCat: scoreByCat,
+      totalByCat: totalByCat
+    };
+
+    try {
+      const key = 'submission:' + refCode + ':' + Date.now();
+      await window.storage.set(key, JSON.stringify(submission), true);
+    } catch(err){
+      console.error('Gagal menyimpan hasil tes:', err);
+    }
+
+    document.getElementById('doneName').textContent = candidate.name;
+    document.getElementById('doneTime').textContent = new Date().toLocaleString('id-ID', {dateStyle:'long', timeStyle:'short'});
+    show('screen-done');
+  });
+
+  // ---------- ADMIN ----------
+  document.getElementById('linkAdmin').addEventListener('click', function(e){
+    e.preventDefault();
+    document.getElementById('inpAdminCode').value = '';
+    document.getElementById('adminError').style.display = 'none';
+    show('screen-admin-gate');
+  });
+  document.getElementById('btnAdminCancel').addEventListener('click', function(){ show('screen-intro'); });
+  document.getElementById('btnAdminBack').addEventListener('click', function(){ show('screen-intro'); });
+
+  document.getElementById('btnAdminEnter').addEventListener('click', async function(){
+    const code = document.getElementById('inpAdminCode').value.trim();
+    if(code !== ADMIN_CODE){
+      document.getElementById('adminError').style.display = 'block';
+      return;
+    }
+    await loadAdminRecap();
+    show('screen-admin');
+  });
+
+  let lastSubmissions = [];
+
+  async function loadAdminRecap(){
+    const tbody = document.getElementById('adminTableBody');
+    tbody.innerHTML = '<tr><td colspan="7">Memuat data...</td></tr>';
+    try {
+      const list = await window.storage.list('submission:', true);
+      const keys = (list && list.keys) ? list.keys : [];
+      const rows = [];
+      for(const k of keys){
+        try {
+          const rec = await window.storage.get(k, true);
+          if(rec && rec.value){
+            rows.push(JSON.parse(rec.value));
+          }
+        } catch(e){ /* skip unreadable key */ }
+      }
+      rows.sort((a,b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+      lastSubmissions = rows;
+      if(rows.length === 0){
+        tbody.innerHTML = '<tr><td colspan="7">Belum ada peserta yang mengumpulkan jawaban.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = rows.map(r => {
+        const total = r.scoreByCat.umum + r.scoreByCat.logika + r.scoreByCat.bank;
+        const totalMax = r.totalByCat.umum + r.totalByCat.logika + r.totalByCat.bank;
+        const t = new Date(r.submittedAt);
+        return '<tr>' +
+          '<td>' + escapeHtml(r.name) + '</td>' +
+          '<td>' + escapeHtml(r.phone) + '</td>' +
+          '<td>' + t.toLocaleString('id-ID', {dateStyle:'short', timeStyle:'short'}) + '</td>' +
+          '<td>' + r.scoreByCat.umum + '/' + r.totalByCat.umum + '</td>' +
+          '<td>' + r.scoreByCat.logika + '/' + r.totalByCat.logika + '</td>' +
+          '<td>' + r.scoreByCat.bank + '/' + r.totalByCat.bank + '</td>' +
+          '<td><strong>' + total + '/' + totalMax + '</strong></td>' +
+        '</tr>';
+      }).join('');
+    } catch(err){
+      tbody.innerHTML = '<tr><td colspan="7">Gagal memuat data rekap.</td></tr>';
+      console.error(err);
+    }
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  document.getElementById('btnAdminExport').addEventListener('click', async function(){
+    if(!lastSubmissions.length){ return; }
+    const header = 'Nama,No HP,Waktu Submit,Umum,Logika,Perbankan,Total\n';
+    const lines = lastSubmissions.map(r => {
+      const total = r.scoreByCat.umum + r.scoreByCat.logika + r.scoreByCat.bank;
+      const totalMax = r.totalByCat.umum + r.totalByCat.logika + r.totalByCat.bank;
+      return [r.name, r.phone, r.submittedAt, r.scoreByCat.umum+'/'+r.totalByCat.umum, r.scoreByCat.logika+'/'+r.totalByCat.logika, r.scoreByCat.bank+'/'+r.totalByCat.bank, total+'/'+totalMax].join(',');
+    }).join('\n');
+    const csv = header + lines;
+    try {
+      await navigator.clipboard.writeText(csv);
+      alert('Data CSV telah disalin ke clipboard.');
+    } catch(e){
+      console.log(csv);
+      alert('Tidak dapat mengakses clipboard otomatis. Data telah ditampilkan di console browser.');
+    }
+  });
+
+})();
+</script>
+</body>
+</html>
